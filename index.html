@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aniversário de 1 Ano - Fundo do Mar | Mundo Bita</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #0a1929 0%, #0d3b66 30%, #1a8bb3 60%, #4ecdc4 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .bubbles-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            animation: float-up linear infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .bubble-small {
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.3));
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .bubble-medium {
+            background: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.8), rgba(78, 205, 196, 0.4));
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.5);
+        }
+        
+        .bubble-large {
+            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.7), rgba(26, 139, 179, 0.5));
+            box-shadow: 0 0 20px rgba(26, 139, 179, 0.6);
+        }
+        
+        .bubble-shiny {
+            background: radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.95), rgba(255, 215, 0, 0.6));
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+        }
+        
+        @keyframes float-up {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            5% { opacity: 0.7; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        
+        @keyframes float-zigzag {
+            0% { transform: translate(0, 100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            25% { transform: translate(20px, 75vh) scale(0.8); }
+            50% { transform: translate(-15px, 50vh) scale(1); }
+            75% { transform: translate(10px, 25vh) scale(1.1); }
+            90% { opacity: 0.3; }
+            100% { transform: translate(-5px, -10vh) scale(1.2); opacity: 0; }
+        }
+        
+        @keyframes float-sideways {
+            0% { transform: translate(0, 100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            25% { transform: translate(40px, 70vh) scale(0.7); }
+            50% { transform: translate(-20px, 45vh) scale(0.9); }
+            75% { transform: translate(15px, 20vh) scale(1); }
+            100% { transform: translate(-25px, -10vh) scale(1.1); opacity: 0; }
+        }
+        
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .carousel-item {
+            display: none;
+            animation: fade 0.5s ease-in-out;
+        }
+        
+        .carousel-item.active {
+            display: block;
+        }
+        
+        @keyframes fade {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+        
+        .fish-emoji {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            font-size: 2.5rem;
+            opacity: 0.5;
+            animation: swim-right-to-left linear infinite;
+        }
+        
+        @keyframes swim-right-to-left {
+            0% { transform: translateX(110vw) scaleX(1); }
+            100% { transform: translateX(-100px) scaleX(1); }
+        }
+        
+        @keyframes swim-wave {
+            0% { transform: translateX(110vw) translateY(0) scaleX(1); }
+            25% { transform: translateX(75vw) translateY(-15px) scaleX(1); }
+            50% { transform: translateX(50vw) translateY(0) scaleX(1); }
+            75% { transform: translateX(25vw) translateY(-10px) scaleX(1); }
+            100% { transform: translateX(-100px) translateY(0) scaleX(1); }
+        }
+        
+        @media (max-width: 640px) {
+            .text-responsive {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bubbles-container" id="bubbles"></div>
+    <div id="fishContainer"></div>
+
+    <!-- Botão de Música -->
+    <button id="musicToggle" class="fixed bottom-6 right-6 z-50 bg-orange-500 text-white p-4 rounded-full shadow-2xl btn-hover flex items-center justify-center w-14 h-14">
+        <i class="fas fa-music text-xl"></i>
+    </button>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://github.com/musasimorro/Aniversario-Murilo/raw/refs/heads/main/WhatsApp-Audio-2026-07-06-at-17.02.01.mp3" type="audio/mpeg">
+    </audio>
+
+    <main class="relative z-10 max-w-lg mx-auto px-4 py-8">
+        
+        <div class="text-center mb-8 pt-6">
+            <div class="inline-block bg-yellow-400 text-blue-900 px-6 py-2 rounded-full font-black text-lg mb-4 shadow-lg transform -rotate-2">
+                🎂 1 ANINHO 🎂
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black text-white mb-2" style="text-shadow: 3px 3px 0 #0a1929;">
+                MUNDO BITA
+            </h1>
+            <p class="text-2xl font-bold text-yellow-300 mb-4" style="text-shadow: 2px 2px 0 #0a1929;">
+                Fundo do Mar
+            </p>
+            <div class="flex justify-center space-x-2">
+                <span class="text-4xl">🐠</span>
+                <span class="text-4xl">🐙</span>
+                <span class="text-4xl">🐳</span>
+                <span class="text-4xl">🦀</span>
+                <span class="text-4xl">🐚</span>
+            </div>
+        </div>
+
+        <!-- Carrossel com as fotos -->
+        <section class="glass-card rounded-3xl p-6 mb-8">
+            <h2 class="text-2xl font-bold text-white text-center mb-4">
+                🌟 Nosso Pequeno Tesouro 🌟
+            </h2>
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl" style="aspect-ratio: 1/1;">
+                <div id="carousel" class="relative w-full h-full">
+                    <img src="https://raw.githubusercontent.com/musasimorro/Aniversario-Murilo/refs/heads/main/fotos/WhatsApp%20Image%202026-07-06%20at%2021.25.14%20(1).jpeg" alt="Foto 1" class="carousel-item active absolute inset-0 w-full h-full object-cover">
+                    <img src="https://raw.githubusercontent.com/musasimorro/Aniversario-Murilo/refs/heads/main/fotos/WhatsApp%20Image%202026-07-06%20at%2021.25.14.jpeg" alt="Foto 2" class="carousel-item absolute inset-0 w-full h-full object-cover">
+                    <img src="https://raw.githubusercontent.com/musasimorro/Aniversario-Murilo/refs/heads/main/fotos/WhatsApp%20Image%202026-07-06%20at%2021.25.15.jpeg" alt="Foto 3" class="carousel-item absolute inset-0 w-full h-full object-cover">
+                    <img src="https://raw.githubusercontent.com/musasimorro/Aniversario-Murilo/refs/heads/main/fotos/WhatsApp%20Image%202026-07-06%20at%2021.25.17%20(3).jpeg" alt="Foto 4" class="carousel-item absolute inset-0 w-full h-full object-cover">
+                    <img src="https://raw.githubusercontent.com/musasimorro/Aniversario-Murilo/refs/heads/main/fotos/WhatsApp%20Image%202026-07-06%20at%2021.25.17.jpeg" alt="Foto 5" class="carousel-item absolute inset-0 w-full h-full object-cover">
+                </div>
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <button class="carousel-dot w-3 h-3 bg-white rounded-full opacity-70" data-index="0"></button>
+                    <button class="carousel-dot w-3 h-3 bg-white rounded-full opacity-70" data-index="1"></button>
+                    <button class="carousel-dot w-3 h-3 bg-white rounded-full opacity-70" data-index="2"></button>
+                    <button class="carousel-dot w-3 h-3 bg-white rounded-full opacity-70" data-index="3"></button>
+                    <button class="carousel-dot w-3 h-3 bg-white rounded-full opacity-70" data-index="4"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Informações ATUALIZADAS -->
+        <section class="glass-card rounded-3xl p-6 mb-8 text-white">
+            <h2 class="text-2xl font-bold text-center mb-6">📅 Data e Local</h2>
+            <div class="space-y-4">
+                <div class="flex items-center bg-white/20 rounded-xl p-4">
+                    <span class="text-3xl mr-4">📅</span>
+                    <div>
+                        <p class="text-sm opacity-80">Data</p>
+                        <p class="text-lg font-bold">15 de Agosto de 2026</p>
+                        <p class="text-sm opacity-80">Sexta-feira</p>
+                    </div>
+                </div>
+                <div class="flex items-center bg-white/20 rounded-xl p-4">
+                    <span class="text-3xl mr-4">🕒</span>
+                    <div>
+                        <p class="text-sm opacity-80">Horário</p>
+                        <p class="text-lg font-bold">18:00</p>
+                    </div>
+                </div>
+                <div class="flex items-center bg-white/20 rounded-xl p-4">
+                    <span class="text-3xl mr-4">📍</span>
+                    <div>
+                        <p class="text-sm opacity-80">Local</p>
+                        <p class="text-lg font-bold">Salão de Festas Mar Azul</p>
+                        <p class="text-sm opacity-80">Rua das Conchas, 123 - Centro</p>
+                    </div>
+                </div>
+            </div>
+            <a href="https://maps.app.goo.gl/89acGryGCfD3kmXT8" target="_blank"
+               class="btn-hover block w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-6 rounded-2xl mt-6 text-center text-lg shadow-lg flex items-center justify-center">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                Ver Local no Mapa
+            </a>
+        </section>
+
+        <!-- Confirmação de Presença -->
+        <section class="glass-card rounded-3xl p-6 mb-8 text-white">
+            <h2 class="text-2xl font-bold text-center mb-6">✨ Confirmar Presença ✨</h2>
+            <form id="confirmForm" class="space-y-4" onsubmit="return false;">
+                <div>
+                    <label for="nome" class="block text-sm font-semibold mb-2"><i class="fas fa-user mr-2"></i>Nome do Convidado</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Seu nome completo"
+                           class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="adultos" class="block text-sm font-semibold mb-2"><i class="fas fa-user-friends mr-2"></i>Adultos</label>
+                        <input type="number" id="adultos" name="adultos" min="0" max="10" value="0" required
+                               class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="criancas" class="block text-sm font-semibold mb-2"><i class="fas fa-child mr-2"></i>Crianças (+2 anos)</label>
+                        <input type="number" id="criancas" name="criancas" min="0" max="10" value="0" required
+                               class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                </div>
+                <button type="button" id="whatsappBtn"
+                        class="btn-hover w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl mt-4 text-lg shadow-lg flex items-center justify-center">
+                    <i class="fab fa-whatsapp mr-2 text-2xl"></i>
+                    Confirmar Presença pelo WhatsApp
+                </button>
+            </form>
+            <p class="text-center text-sm mt-4 opacity-80">🎈 Contamos com sua presença! 🎈</p>
+        </section>
+
+        <!-- Botão para a página de upload de fotos -->
+        <section class="glass-card rounded-3xl p-6 mb-8 text-white text-center">
+            <h2 class="text-2xl font-bold mb-4">📸 Fotos da Festa</h2>
+            <p class="text-sm mb-4 opacity-90">Queremos guardar cada sorriso! Envie suas fotos da festa para o nosso álbum.</p>
+            <a href="upload.html" target="_blank"
+               class="btn-hover inline-block bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold py-4 px-8 rounded-2xl text-lg shadow-lg transform transition-all hover:scale-105">
+                <i class="fas fa-cloud-upload-alt mr-2"></i>
+                Enviar Fotos da Festa
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <div class="text-center text-white/60 text-sm mb-8">
+            <p>Feito com muito amor e carinho ❤️</p>
+            <div class="flex justify-center space-x-2 mt-2">
+                <span>🐋</span><span>🐬</span><span>🐟</span><span>🐠</span><span>🐡</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ============ CARROSSEL ============
+        class Carousel {
+            constructor() {
+                this.currentIndex = 0;
+                this.items = document.querySelectorAll('.carousel-item');
+                this.dots = document.querySelectorAll('.carousel-dot');
+                this.totalItems = this.items.length;
+                this.interval = null;
+                this.init();
+            }
+            init() {
+                this.startAutoPlay();
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.goToSlide(index);
+                        this.resetAutoPlay();
+                    });
+                });
+                this.updateDots();
+            }
+            goToSlide(index) {
+                this.items.forEach(item => item.classList.remove('active'));
+                this.items[index].classList.add('active');
+                this.currentIndex = index;
+                this.updateDots();
+            }
+            nextSlide() {
+                let nextIndex = (this.currentIndex + 1) % this.totalItems;
+                this.goToSlide(nextIndex);
+            }
+            updateDots() {
+                this.dots.forEach((dot, index) => {
+                    if (index === this.currentIndex) {
+                        dot.style.opacity = '1';
+                        dot.style.backgroundColor = '#F59E0B';
+                        dot.style.transform = 'scale(1.2)';
+                    } else {
+                        dot.style.opacity = '0.7';
+                        dot.style.backgroundColor = 'white';
+                        dot.style.transform = 'scale(1)';
+                    }
+                });
+            }
+            startAutoPlay() {
+                // 5 segundos por foto
+                this.interval = setInterval(() => this.nextSlide(), 5000);
+            }
+            resetAutoPlay() {
+                clearInterval(this.interval);
+                this.startAutoPlay();
+            }
+        }
+
+        // ============ BOLHAS ============
+        class BubbleGenerator {
+            constructor() {
+                this.container = document.getElementById('bubbles');
+                this.bubbleTypes = ['bubble-small', 'bubble-medium', 'bubble-large', 'bubble-shiny'];
+                this.animations = ['float-up', 'float-zigzag', 'float-sideways'];
+                this.init();
+            }
+            init() {
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => this.createBubble(), i * 200);
+                }
+                setInterval(() => this.createBubble(), 800);
+                setInterval(() => this.createBubbleGroup(), 4000);
+            }
+            createBubble() {
+                const bubble = document.createElement('div');
+                const type = this.bubbleTypes[Math.floor(Math.random() * this.bubbleTypes.length)];
+                const animation = this.animations[Math.floor(Math.random() * this.animations.length)];
+                bubble.classList.add('bubble', type);
+                const size = Math.random() * 45 + 5;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 95}%`;
+                const duration = Math.random() * 10 + 8;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.animationName = animation;
+                bubble.style.animationDelay = `${Math.random() * 2}s`;
+                this.container.appendChild(bubble);
+                setTimeout(() => {
+                    if (bubble.parentNode) bubble.remove();
+                }, (duration + 2) * 1000);
+            }
+            createBubbleGroup() {
+                const groupSize = Math.floor(Math.random() * 4) + 5;
+                const baseX = Math.random() * 80;
+                for (let i = 0; i < groupSize; i++) {
+                    setTimeout(() => {
+                        const bubble = document.createElement('div');
+                        const type = this.bubbleTypes[Math.floor(Math.random() * this.bubbleTypes.length)];
+                        bubble.classList.add('bubble', type);
+                        const size = Math.random() * 25 + 8;
+                        bubble.style.width = `${size}px`;
+                        bubble.style.height = `${size}px`;
+                        bubble.style.left = `${baseX + (Math.random() * 20)}%`;
+                        const duration = Math.random() * 6 + 7;
+                        bubble.style.animationDuration = `${duration}s`;
+                        bubble.style.animationName = 'float-up';
+                        this.container.appendChild(bubble);
+                        setTimeout(() => {
+                            if (bubble.parentNode) bubble.remove();
+                        }, (duration + 2) * 1000);
+                    }, i * 300);
+                }
+            }
+        }
+
+        // ============ PEIXES ============
+        class FishDecorator {
+            constructor() {
+                this.container = document.getElementById('fishContainer');
+                this.fishEmojis = ['🐠', '🐟', '🐡', '🐬', '🐋', '🐙', '🦀', '🦑', '🐚', '🦈'];
+                this.init();
+            }
+            init() {
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => this.createFish(), i * 1500);
+                }
+                setInterval(() => {
+                    if (this.container.children.length < 10) this.createFish();
+                }, 8000);
+            }
+            createFish() {
+                const fish = document.createElement('div');
+                fish.classList.add('fish-emoji');
+                const randomEmoji = this.fishEmojis[Math.floor(Math.random() * this.fishEmojis.length)];
+                fish.textContent = randomEmoji;
+                const topPosition = Math.random() * 75 + 10;
+                fish.style.top = `${topPosition}%`;
+                const size = Math.random() * 2 + 2;
+                fish.style.fontSize = `${size}rem`;
+                const animations = ['swim-right-to-left', 'swim-wave'];
+                const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+                fish.style.animationName = randomAnimation;
+                const duration = Math.random() * 20 + 15;
+                fish.style.animationDuration = `${duration}s`;
+                fish.style.animationDelay = `${Math.random() * 5}s`;
+                fish.style.opacity = Math.random() * 0.3 + 0.3;
+                this.container.appendChild(fish);
+                setTimeout(() => {
+                    if (fish.parentNode) fish.remove();
+                }, (duration + 5) * 1000);
+            }
+        }
+
+        // ============ MÚSICA ============
+        class MusicController {
+            constructor() {
+                this.audio = document.getElementById('bgMusic');
+                this.toggleBtn = document.getElementById('musicToggle');
+                this.isPlaying = false;
+                this.hasInteracted = false;
+                this.init();
+            }
+            init() {
+                this.attemptAutoplay();
+                this.toggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleMusic();
+                });
+                document.addEventListener('click', () => {
+                    if (!this.hasInteracted) {
+                        this.hasInteracted = true;
+                        this.playMusic();
+                    }
+                }, { once: false });
+                this.updateIcon();
+            }
+            async attemptAutoplay() {
+                try {
+                    await this.audio.play();
+                    this.isPlaying = true;
+                    this.updateIcon();
+                } catch (error) {
+                    console.log('Autoplay bloqueado. Aguardando interação...');
+                    this.isPlaying = false;
+                    this.updateIcon();
+                }
+            }
+            toggleMusic() {
+                this.isPlaying ? this.pauseMusic() : this.playMusic();
+            }
+            playMusic() {
+                this.audio.play().then(() => {
+                    this.isPlaying = true;
+                    this.updateIcon();
+                }).catch(error => console.log('Erro ao reproduzir:', error));
+            }
+            pauseMusic() {
+                this.audio.pause();
+                this.isPlaying = false;
+                this.updateIcon();
+            }
+            updateIcon() {
+                const icon = this.toggleBtn.querySelector('i');
+                if (this.isPlaying) {
+                    icon.classList.remove('fa-music');
+                    icon.classList.add('fa-volume-up');
+                    this.toggleBtn.style.backgroundColor = '#10B981';
+                } else {
+                    icon.classList.remove('fa-volume-up');
+                    icon.classList.add('fa-music');
+                    this.toggleBtn.style.backgroundColor = '#F59E0B';
+                }
+            }
+        }
+
+        // ============ WHATSAPP ============
+        class WhatsAppIntegration {
+            constructor() {
+                this.whatsappBtn = document.getElementById('whatsappBtn');
+                this.nomeInput = document.getElementById('nome');
+                this.adultosInput = document.getElementById('adultos');
+                this.criancasInput = document.getElementById('criancas');
+                this.init();
+            }
+            init() {
+                this.whatsappBtn.addEventListener('click', () => this.sendConfirmation());
+            }
+            sendConfirmation() {
+                const nome = this.nomeInput.value.trim();
+                const adultos = parseInt(this.adultosInput.value) || 0;
+                const criancas = parseInt(this.criancasInput.value) || 0;
+                if (!nome) { alert('Por favor, informe seu nome!'); this.nomeInput.focus(); return; }
+                if (adultos === 0 && criancas === 0) { alert('Por favor, informe pelo menos 1 pessoa!'); return; }
+                const totalPessoas = adultos + criancas;
+                let mensagem = `Olá! Confirmando presença no aniversário de 1 ano! 🎂🎉\n\n`;
+                mensagem += `👤 Nome: ${nome}\n`;
+                mensagem += `👥 Seremos no total ${totalPessoas} pessoas`;
+                if (adultos > 0 && criancas > 0) mensagem += ` (${adultos} adulto(s) e ${criancas} criança(s))`;
+                else if (adultos > 0) mensagem += ` (${adultos} adulto(s))`;
+                else if (criancas > 0) mensagem += ` (${criancas} criança(s))`;
+                mensagem += `\n\n🎈 Aguardamos ansiosos! 🐠`;
+                const mensagemCodificada = encodeURIComponent(mensagem);
+                const numeroWhatsApp = '5514997373496';
+                const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
+                window.open(urlWhatsApp, '_blank');
+                this.whatsappBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Redirecionando...';
+                this.whatsappBtn.style.backgroundColor = '#059669';
+                setTimeout(() => {
+                    this.whatsappBtn.innerHTML = '<i class="fab fa-whatsapp mr-2 text-2xl"></i> Confirmar Presença pelo WhatsApp';
+                    this.whatsappBtn.style.backgroundColor = '#10B981';
+                }, 2000);
+            }
+        }
+
+        // ============ INICIALIZAÇÃO ============
+        document.addEventListener('DOMContentLoaded', () => {
+            new Carousel();
+            new BubbleGenerator();
+            new FishDecorator();
+            new MusicController();
+            new WhatsAppIntegration();
+            console.log('🎉 Convite pronto! Música do Bita tocando...');
+        });
+
+        // Otimizações
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('touchmove', e => {
+            if (e.target.tagName === 'INPUT') e.stopPropagation();
+        }, { passive: false });
+    </script>
+</body>
+</html>
