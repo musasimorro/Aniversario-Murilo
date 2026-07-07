@@ -127,11 +127,6 @@
             scroll-behavior: smooth;
         }
         
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            opacity: 1;
-        }
-        
         .fish-emoji {
             position: fixed;
             pointer-events: none;
@@ -195,7 +190,7 @@
             </div>
         </div>
 
-        <!-- Carrossel com as fotos -->
+        <!-- CARROSSEL MANTIDO EXATAMENTE COMO ESTAVA -->
         <section class="glass-card rounded-3xl p-6 mb-8">
             <h2 class="text-2xl font-bold text-white text-center mb-4">
                 🌟 Nosso Pequeno Tesouro 🌟
@@ -218,7 +213,7 @@
             </div>
         </section>
 
-        <!-- Informações ATUALIZADAS -->
+        <!-- Informações do Evento -->
         <section class="glass-card rounded-3xl p-6 mb-8 text-white">
             <h2 class="text-2xl font-bold text-center mb-6">📅 Data e Local</h2>
             <div class="space-y-4">
@@ -253,26 +248,15 @@
             </a>
         </section>
 
-        <!-- Confirmação de Presença -->
+        <!-- Confirmação de Presença (simplificada) -->
         <section class="glass-card rounded-3xl p-6 mb-8 text-white">
             <h2 class="text-2xl font-bold text-center mb-6">✨ Confirmar Presença ✨</h2>
             <form id="confirmForm" class="space-y-4" onsubmit="return false;">
                 <div>
-                    <label for="nome" class="block text-sm font-semibold mb-2"><i class="fas fa-user mr-2"></i>Nome do Convidado</label>
-                    <input type="text" id="nome" name="nome" required placeholder="Seu nome completo"
+                    <label for="nomes" class="block text-sm font-semibold mb-2"><i class="fas fa-user mr-2"></i>Nome(s) do(s) Convidado(s)</label>
+                    <input type="text" id="nomes" name="nomes" required placeholder="Ex: João, Maria, Pedro"
                            class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="adultos" class="block text-sm font-semibold mb-2"><i class="fas fa-user-friends mr-2"></i>Adultos</label>
-                        <input type="number" id="adultos" name="adultos" min="0" max="10" value="0" required
-                               class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label for="criancas" class="block text-sm font-semibold mb-2"><i class="fas fa-child mr-2"></i>Crianças (+2 anos)</label>
-                        <input type="number" id="criancas" name="criancas" min="0" max="10" value="0" required
-                               class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
-                    </div>
+                    <p class="text-xs mt-1 opacity-70">Se for mais de uma pessoa, separe os nomes por vírgula.</p>
                 </div>
                 <button type="button" id="whatsappBtn"
                         class="btn-hover w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl mt-4 text-lg shadow-lg flex items-center justify-center">
@@ -283,15 +267,17 @@
             <p class="text-center text-sm mt-4 opacity-80">🎈 Contamos com sua presença! 🎈</p>
         </section>
 
-        <!-- Botão para a página de upload de fotos -->
+        <!-- NOVA SEÇÃO DE ENVIO DE FOTOS VIA CLOUDINARY -->
         <section class="glass-card rounded-3xl p-6 mb-8 text-white text-center">
             <h2 class="text-2xl font-bold mb-4">📸 Fotos da Festa</h2>
-            <p class="text-sm mb-4 opacity-90">Queremos guardar cada sorriso! Envie suas fotos da festa para o nosso álbum.</p>
-            <a href="upload.html" target="_blank"
-               class="btn-hover inline-block bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold py-4 px-8 rounded-2xl text-lg shadow-lg transform transition-all hover:scale-105">
+            <p class="text-sm mb-4 opacity-90">
+                Queremos guardar cada sorriso! Clique no botão abaixo para enviar suas fotos da festa diretamente para o nosso álbum.
+            </p>
+            <button id="cloudinaryUploadBtn"
+                    class="btn-hover inline-block bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold py-4 px-8 rounded-2xl text-lg shadow-lg transform transition-all hover:scale-105">
                 <i class="fas fa-cloud-upload-alt mr-2"></i>
                 Enviar Fotos da Festa
-            </a>
+            </button>
         </section>
 
         <!-- Footer -->
@@ -302,6 +288,9 @@
             </div>
         </div>
     </main>
+
+    <!-- Cloudinary Upload Widget Script -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
     <script>
         // ============ CARROSSEL ============
@@ -348,7 +337,6 @@
                 });
             }
             startAutoPlay() {
-                // 5 segundos por foto
                 this.interval = setInterval(() => this.nextSlide(), 5000);
             }
             resetAutoPlay() {
@@ -514,32 +502,25 @@
             }
         }
 
-        // ============ WHATSAPP ============
+        // ============ WHATSAPP (mensagem simplificada) ============
         class WhatsAppIntegration {
             constructor() {
                 this.whatsappBtn = document.getElementById('whatsappBtn');
-                this.nomeInput = document.getElementById('nome');
-                this.adultosInput = document.getElementById('adultos');
-                this.criancasInput = document.getElementById('criancas');
+                this.nomesInput = document.getElementById('nomes');
                 this.init();
             }
             init() {
                 this.whatsappBtn.addEventListener('click', () => this.sendConfirmation());
             }
             sendConfirmation() {
-                const nome = this.nomeInput.value.trim();
-                const adultos = parseInt(this.adultosInput.value) || 0;
-                const criancas = parseInt(this.criancasInput.value) || 0;
-                if (!nome) { alert('Por favor, informe seu nome!'); this.nomeInput.focus(); return; }
-                if (adultos === 0 && criancas === 0) { alert('Por favor, informe pelo menos 1 pessoa!'); return; }
-                const totalPessoas = adultos + criancas;
-                let mensagem = `Olá! Confirmando presença no aniversário de 1 ano! 🎂🎉\n\n`;
-                mensagem += `👤 Nome: ${nome}\n`;
-                mensagem += `👥 Seremos no total ${totalPessoas} pessoas`;
-                if (adultos > 0 && criancas > 0) mensagem += ` (${adultos} adulto(s) e ${criancas} criança(s))`;
-                else if (adultos > 0) mensagem += ` (${adultos} adulto(s))`;
-                else if (criancas > 0) mensagem += ` (${criancas} criança(s))`;
-                mensagem += `\n\n🎈 Aguardamos ansiosos! 🐠`;
+                const nomes = this.nomesInput.value.trim();
+                if (!nomes) {
+                    alert('Por favor, informe pelo menos um nome!');
+                    this.nomesInput.focus();
+                    return;
+                }
+                let mensagem = `Olá! Confirmando presença no aniversário de 1 ano!\n\n`;
+                mensagem += `Nome(s): ${nomes}`;
                 const mensagemCodificada = encodeURIComponent(mensagem);
                 const numeroWhatsApp = '5514997373496';
                 const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
@@ -553,6 +534,87 @@
             }
         }
 
+        // ============ CLOUDINARY UPLOAD WIDGET ============
+        class CloudinaryUpload {
+            constructor() {
+                this.uploadBtn = document.getElementById('cloudinaryUploadBtn');
+                this.init();
+            }
+            init() {
+                this.uploadBtn.addEventListener('click', () => this.openWidget());
+            }
+            openWidget() {
+                cloudinary.openUploadWidget(
+                    {
+                        cloudName: 'oxgj5pkn',
+                        uploadPreset: 'lu10q94s',
+                        sources: ['local', 'url', 'camera'],
+                        multiple: true,
+                        maxFiles: 10,
+                        clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif'],
+                        maxFileSize: 10000000, // 10 MB
+                        language: 'pt',
+                        text: {
+                            'pt': {
+                                or: 'ou',
+                                menu: {
+                                    files: 'Meus arquivos',
+                                    camera: 'Câmera',
+                                    url: 'URL da imagem'
+                                },
+                                local: {
+                                    browse: 'Selecionar fotos',
+                                    dd_title_single: 'Arraste uma foto aqui',
+                                    dd_title_multi: 'Arraste as fotos aqui'
+                                }
+                            }
+                        },
+                        styles: {
+                            palette: {
+                                window: "#1a8bb3",
+                                windowBorder: "#4ecdc4",
+                                tabIcon: "#ffffff",
+                                menuIcons: "#ffffff",
+                                textDark: "#0a1929",
+                                textLight: "#ffffff",
+                                link: "#F59E0B",
+                                action: "#F59E0B",
+                                inProgress: "#10B981",
+                                complete: "#10B981",
+                                error: "#EF4444",
+                                sourceBg: "#0d3b66"
+                            },
+                            fonts: {
+                                default: null,
+                                "'Nunito', sans-serif": {
+                                    url: 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap',
+                                    active: true
+                                }
+                            }
+                        }
+                    },
+                    (error, result) => {
+                        if (error) {
+                            console.error('Erro no upload:', error);
+                            alert('Ops! Algo deu errado ao enviar as fotos. Tente novamente.');
+                            return;
+                        }
+                        if (result && result.event === 'success') {
+                            console.log('Upload concluído!', result.info);
+                            // Feedback visual sutil
+                            const btn = this.uploadBtn;
+                            btn.innerHTML = '<i class="fas fa-check mr-2"></i> Fotos enviadas!';
+                            btn.style.backgroundColor = '#10B981';
+                            setTimeout(() => {
+                                btn.innerHTML = '<i class="fas fa-cloud-upload-alt mr-2"></i> Enviar Fotos da Festa';
+                                btn.style.backgroundColor = '';
+                            }, 3000);
+                        }
+                    }
+                );
+            }
+        }
+
         // ============ INICIALIZAÇÃO ============
         document.addEventListener('DOMContentLoaded', () => {
             new Carousel();
@@ -560,6 +622,7 @@
             new FishDecorator();
             new MusicController();
             new WhatsAppIntegration();
+            new CloudinaryUpload();
             console.log('🎉 Convite pronto! Música do Bita tocando...');
         });
 
